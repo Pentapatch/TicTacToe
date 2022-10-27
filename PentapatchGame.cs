@@ -62,6 +62,8 @@
             set => _column = Math.Clamp(value, 0, grid.GetLength(1) - 1);
         }
 
+        public static bool PlayerXTurn { get => turn == 'X'; }
+
         // ##################
         // ## Constructors ##
         // ##################
@@ -80,8 +82,7 @@
         {
             Reset(width, height);
 
-            bool exitGame = false;
-            while (!exitGame)
+            while (true)
             {
                 Reset(grid.GetLength(0));
 
@@ -101,20 +102,25 @@
 
                     ConsoleKeyInfo key = ExpectKey(ConsoleKey.LeftArrow, ConsoleKey.RightArrow, ConsoleKey.UpArrow, ConsoleKey.DownArrow,
                                                    ConsoleKey.Spacebar, ConsoleKey.Enter, ConsoleKey.F5, ConsoleKey.D3, ConsoleKey.D5,
-                                                   ConsoleKey.D7, ConsoleKey.D9, ConsoleKey.F2, ConsoleKey.F1, ConsoleKey.Escape);
+                                                   ConsoleKey.D7, ConsoleKey.D9, ConsoleKey.F2, ConsoleKey.F1, ConsoleKey.Escape,
+                                                   ConsoleKey.W, ConsoleKey.A, ConsoleKey.S, ConsoleKey.D);
 
                     switch (key.Key)
                     {
                         case ConsoleKey.LeftArrow:
+                        case ConsoleKey.A:
                             Column--;
                             break;
                         case ConsoleKey.RightArrow:
+                        case ConsoleKey.D:
                             Column++;
                             break;
                         case ConsoleKey.UpArrow:
+                        case ConsoleKey.W:
                             Row--;
                             break;
                         case ConsoleKey.DownArrow:
+                        case ConsoleKey.S:
                             Row++;
                             break;
                         case ConsoleKey.F5:
@@ -168,7 +174,6 @@
                             Restart();
                             return;
                         case ConsoleKey.Escape:
-                            exitGame = true;
                             return;
                         case ConsoleKey.Spacebar:
                         case ConsoleKey.Enter:
