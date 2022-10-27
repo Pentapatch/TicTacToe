@@ -12,7 +12,7 @@
 
         public static int PlayerOScore { get; private set; } = 0;
 
-        private static char[,] array = new char[,]
+        private static readonly char[,] array = new char[,]
         {
             { ' ', ' ', ' ' },
             { ' ', ' ', ' ' },
@@ -25,6 +25,7 @@
         {
             while (true)
             {
+                Console.CursorVisible = false;
                 Reset();
                 PlayGame();
             }
@@ -112,7 +113,7 @@
             // Write out scoring
             Console.WriteLine($"Player X score: {PlayerXScore}");
             Console.WriteLine($"Player O score: {PlayerOScore}");
-            
+
             // Wait for the user to acknowledge
             Console.ReadKey(true);
         }
@@ -142,17 +143,29 @@
                 {
                     // Write the value of the current position in the array (or the cursor)
                     if (CurrentColumn == column && CurrentRow == row)
-                        Console.Write("*");
+                    {
+                        Console.Write("[");
+                    }
                     else
                     {
-                        char currentChar = array[row, column];
-                        Console.ForegroundColor = currentChar == 'O' ? ConsoleColor.Green : currentChar == 'X' ? ConsoleColor.Blue : ConsoleColor.Gray;
-                        Console.Write(array[row, column]);
-                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.Write(" ");
                     }
 
+                    char currentChar = array[row, column];
+                    Console.ForegroundColor = currentChar == 'O' ? ConsoleColor.Green : currentChar == 'X' ? ConsoleColor.Blue : ConsoleColor.Gray;
+                    Console.Write(array[row, column]);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    if (CurrentColumn == column && CurrentRow == row)
+                    {
+                        Console.Write("]");
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
                     // Write separator
-                    if (column != array.GetLength(1) - 1) Console.Write(" | ");
+                    if (column != array.GetLength(1) - 1) Console.Write("|");
                 }
                 Console.WriteLine("");
             }
